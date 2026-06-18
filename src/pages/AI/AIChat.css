@@ -250,6 +250,7 @@
 @media (max-width: 768px) {
   .ai-page-wrapper {
     padding: 12px;
+    align-items: stretch;
   }
 
   .ai-chat-container {
