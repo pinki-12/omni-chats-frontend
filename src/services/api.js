@@ -13,7 +13,14 @@ const api = axios.create({
 // Request Interceptor
 api.interceptors.request.use(
   (config) => {
-    // We can add headers or logs here if needed in the future
+    // The frontend and backend live on different domains, and many mobile
+    // browsers now block cross-site cookies by default — so the httpOnly
+    // cookie alone can silently fail to be sent. As a reliable fallback,
+    // also attach the JWT we stored at login as a Bearer header.
+    const token = localStorage.getItem('omnichat_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {

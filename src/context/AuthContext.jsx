@@ -37,6 +37,7 @@ export function AuthProvider({ children }) {
         // regardless of what localStorage might have said.
         setUser(null);
         localStorage.removeItem('omnichat_user');
+        localStorage.removeItem('omnichat_token');
       } finally {
         setAuthChecked(true);
       }
@@ -57,6 +58,10 @@ export function AuthProvider({ children }) {
       };
       setUser(userData);
       localStorage.setItem('omnichat_user', JSON.stringify(userData));
+      if (responseData.token) {
+        // Stored alongside the cookie as a fallback auth path — see api.js.
+        localStorage.setItem('omnichat_token', responseData.token);
+      }
       setAuthChecked(true);
       setLoading(false);
       return { success: true };
@@ -91,6 +96,7 @@ export function AuthProvider({ children }) {
     } finally {
       setUser(null);
       localStorage.removeItem('omnichat_user');
+      localStorage.removeItem('omnichat_token');
     }
   };
 
